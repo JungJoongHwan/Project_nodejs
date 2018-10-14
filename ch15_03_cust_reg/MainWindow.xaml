@@ -1,0 +1,70 @@
+﻿<Window x:Class="ch15_03_cust_reg.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ch15_03_cust_reg"
+        mc:Ignorable="d"
+        Icon="https://cdn1.iconfinder.com/data/icons/CrystalClear/128x128/kdm/user_male.png"
+        Title="고객등록" Height="450" Width="350"
+        FocusManager.FocusedElement="{Binding ElementName=txtName}">
+    <!-- Window에 FocusManager.FocusedElement로 화면시작시 포커스를 줄수 있다.-->
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- 
+        Label은 Content이고 TextBox는 Text이다.
+        Label은 핫키지정이 가능하다.
+        Label에 바깥쪽에 외곽선을 Border로 그려줄수 있다.. 그런데 이렇게 하니 컨트롤과 높이가 맞지않는다.
+          컨트롤도 Border를 넣어주니 맞는다.  아예 Label에 두께라인을 넣고 배경색을 주는게 낫지 않나???
+        여러개의 컨트롤을 배치하기 위해 StackPanel을 넣는다.. 잘 생각해보면 알수있다.
+        이미지와 문자를 보여주는 방법으로는 Image와 Label을 연속으로 배치하거나.. 
+          Label안에 이미지와 택스트를 같이 넣는 방법이 있다.
+        TextBox를 여러라인으로 설정하는 방법을 잘 봐둔다.
+        -->
+
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="#ff4fafaf" BorderThickness="1" Background="#af7fefef"> 
+            <Label  Content="성명(_N):" Target="{Binding ElementName=txtName}"/>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="#ff4fafaf" BorderThickness="1" Background="#af7fefef">
+            <TextBox x:Name="txtName"  BorderThickness="0"/>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="#ff4fafaf" BorderThickness="1" Background="#af7fefef">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="https://cdn2.iconfinder.com/data/icons/square-logo-buttons/512/telephone-1-24.png" 
+                       Width="16" Height="16" Margin="5,0,0,0"/>
+                <Label Content="전화번호(_T):" Target="{Binding ElementName=txtTel}"/>
+            </StackPanel>
+        </Border>
+        <TextBox x:Name="txtTel"  Grid.Row="1" Grid.Column="1" ToolTip="핸드폰번호를 넣어주세요."/>
+
+        <Border Grid.Row="2" Grid.Column="0" BorderBrush="#ff4fafaf" BorderThickness="1" Background="#af7fefef">
+            <Label Target="{Binding ElementName=txtSex}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="https://cdn2.iconfinder.com/data/icons/sem_labs_icon_pack/icons/users_mixed_gender.png"
+                   Width="16" Height="16"/>
+                    <AccessText>성별(_S):</AccessText>
+                </StackPanel>
+            </Label>
+        </Border>
+        <TextBox x:Name="txtSex" Grid.Row="2" Grid.Column="1" />
+
+        <Label Grid.Row="3" Grid.Column="0" Content="비고(_M):" Target="{Binding ElementName=txtMemo}"/>
+        <TextBox x:Name="txtMemo" Grid.Row="3" Grid.Column="1" Height="100" AcceptsReturn="True" AcceptsTab="True"
+                 VerticalScrollBarVisibility="Visible" TextWrapping="Wrap"/>
+        
+    </Grid>
+</Window>
