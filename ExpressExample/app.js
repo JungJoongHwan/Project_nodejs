@@ -13,7 +13,7 @@ var http = require('http');
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);  // port속성을 추가한다...
+app.set('port', process.env.PORT || 3000);  // port속성을 추가한다... process.env.PORT에 값이 없으면 3000번을 사용한다는 뜻...
 
 var server = http.createServer(app).listen(app.get('port'), function() {
     console.log('[app.js]익스프레스로 웹서버를 실행함: ' + app.get('port'));

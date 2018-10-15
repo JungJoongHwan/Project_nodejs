@@ -1,5 +1,8 @@
 /*
     User-Agent와 Param을 확인하기 (p164)
+
+    브라우저에 localhost:3000/?name=mike 라고 친다...
+    User-Agent는 리퀘스트헤더에 있는 항목이고, name은 Get방식의 파라미터로 넘기는 값이다.
 */
 
 var express = require('express');
