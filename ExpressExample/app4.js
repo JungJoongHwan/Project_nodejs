@@ -22,13 +22,13 @@ app.use(function(req, res, next) {
     // 첫번째...
     //res.send('<h1>Express 서버에서' + req.user + '응답한 결과입니다.</h1>');
     
-    // 두번째..
+    // 두번째..  json을 보낸다.
     //var person = {name:'소녀시대', age:20};
     //res.send(person);
     
-    // 세번째..
+    // 세번째..  json을 문자열로 바꿔서 보낸다.
     //var person = {name:'소녀시대', age:30};
-    //var personStr = JSON.stringify(person);
+    //var personStr = JSON.stringify(person); 
     //res.send(personStr);
     
     // 네번째..
