@@ -58,6 +58,27 @@ var authUser = function(db, id, password, callback) {
     });
 }
 
+// 사용자를 추가하는 함수
+// -> 먼저 사용자가 있는지 확인하고 넣어야 하는데.. 그냥 넣고 있네... 
+var addUser = function(db, id, password, name, callback) {
+    console.log('addUser 호출됨');
+
+    var users = db.collection('users');
+
+    users.insertMany([{'id':id, 'password':password, 'name':name}], function(err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+
+        if (result.insertedCount > 0) {
+            console.log('사용자 레코드 추가됨 : ' + result.insertedCount);
+        } else {
+            console.log('추가된 레코드가 없음.');
+        }
+        callback(null, result);
+    });
+}
 
 var app = express();
 
@@ -110,6 +131,40 @@ app.post('/process/login', function(req, res) {
         res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
         res.write('<h2>데이터베이스 연결 실패<h2>');
         res.write('<div><p>데이터베이스에 연결하지 못했습니다.</p></div>');
+        res.end();
+    }
+});
+
+// 사용자추가 라우팅 함수, 클라이언트에서 보내온 데이터를 이용해 데이터베이스에 추가
+router.route('/process/adduser').post(function(req, res) {
+    console.log('/process/adduser 호출됨');
+
+    var paramId = req.body.id || req.query.id;
+    var paramPassword = req.body.password || req.query.password;
+    var paramName = req.body.name || req.query.name;
+
+    console.log('요청 파라미터 : ' + paramId + ', ' + paramPassword + ', ' + paramName);
+
+    if (database) {
+        addUser(database, paramId, paramPassword, paramName, function(err, result) {
+            if (err) { throw err;}
+
+            // 결과 객체를 확인하여 추가된 데이터가 있으면 성공 응답 전송
+            if (result && result.insertedCount > 0) {
+                console.dir(result);
+
+                res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+                res.write('<h2>사용자추가 성공<h2>');
+                res.end();
+            } else {
+                res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+                res.write('<h2>사용자추가 실패<h2>');
+                res.end();
+            }
+        });
+    } else {    // 데이터베이스 객체가 초기화되지 않은 경우.. 실패응답 전송
+        res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+        res.write('<h2>데이터베이스 연결 실패<h2>');
         res.end();
     }
 });
